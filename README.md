@@ -1,5 +1,5 @@
 # gcd-django-vagrant-install
-Scripts to setup a local development environment for the GCD website (gcd-django) using Vagrant
+Scripts to setup a local development environment for the [GCD](http://www.comics.org/) website (gcd-django) using Vagrant
 
 After installing [Vagrant](https://www.vagrantup.com/), simply run
 
