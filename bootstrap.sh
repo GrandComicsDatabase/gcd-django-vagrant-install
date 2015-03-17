@@ -43,4 +43,7 @@ cp ../settings_local.py .
 export DJANGO_SETTINGS_MODULE=settings
 python <../initialize_countstats.py
 ./manage.py rebuild_index --noinput
-./manage.py runserver 0.0.0.0:8000
+
+# Make gcd-django start automatically via Upstart
+sudo cp ../gcd-django.conf /etc/init
+sudo start gcd-django
