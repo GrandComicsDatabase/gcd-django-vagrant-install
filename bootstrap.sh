@@ -46,4 +46,4 @@ python <../initialize_countstats.py
 
 # Make gcd-django start automatically via Upstart
 sudo cp ../gcd-django.conf /etc/init
-sudo start gcd-django
+status gcd-django | grep -q start || sudo start gcd-django
