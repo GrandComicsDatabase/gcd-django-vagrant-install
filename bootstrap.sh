@@ -22,7 +22,8 @@ fi
 # Install required packages
 DEBIAN_FRONTEND=noninteractive sudo -E apt-get install -y --force-yes \
     mysql-server git python-pip csstidy python-virtualenv build-essential \
-    libmysqlclient-dev python-dev libjpeg-dev libicu-dev openjdk-7-jre elasticsearch
+    libmysqlclient-dev python-dev libjpeg-dev libicu-dev \
+    openjdk-7-jre-headless elasticsearch
 
 # If elasticsearch was installed, add it to default jobs
 if [ -n "$ELASTICSEARCH" ]; then
@@ -35,7 +36,7 @@ if ! grep -q default-storage-engine /etc/mysql/my.cnf; then
     sudo perl -i -pe 's/\[mysqld]/$&\ndefault-storage-engine = InnoDB\n/'  /etc/mysql/my.cnf
 fi
 sudo service mysql restart
-echo 'CREATE DATABASE gcd IF NOT EXISTS DEFAULT CHARACTER SET utf8' |mysql -u root -p"$MYSQL_PASSWORD"
+echo 'CREATE DATABASE IF NOT EXISTS gcd DEFAULT CHARACTER SET utf8' |mysql -u root -p"$MYSQL_PASSWORD"
 
 # Download GCD code and required Python packages in virtualenv
 if [ -d /vagrant/gcd-django ]; then
