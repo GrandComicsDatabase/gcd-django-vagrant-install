@@ -15,7 +15,7 @@ fi
 sudo apt-get update
 
 # Check if elasticsearch is going to be installed
-if ! dpkg-query -W elasticsearch; then
+if ! dpkg-query -W elasticsearch >/dev/null 2>&1; then
     ELASTICSEARCH=true
 fi
 
