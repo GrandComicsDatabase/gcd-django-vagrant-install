@@ -51,8 +51,8 @@ if [ -d /vagrant/python-graph ]; then
 else
     git clone https://github.com/pmatiello/python-graph /vagrant/python-graph
 fi
-[ -d /vagrant/virtualenv ] || virtualenv --system-site-packages /vagrant/virtualenv
-source /vagrant/virtualenv/bin/activate
+[ -d ~/virtualenv ] || virtualenv --system-site-packages ~/virtualenv
+source ~/virtualenv/bin/activate
 pip install -U pip requests
 pip install /vagrant/python-graph/core
 cd /vagrant/gcd-django
@@ -68,5 +68,5 @@ python <../initialize_countstats.py
 ./manage.py rebuild_index --noinput
 
 # Make gcd-django start automatically via Upstart
-[ -f /etc/init/gcd-django.conf ] || sudo cp ../gcd-django.conf /etc/init
+sudo cp ../gcd-django.conf /etc/init
 status gcd-django | grep -q start || sudo start gcd-django
