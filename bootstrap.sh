@@ -38,23 +38,27 @@ fi
 sudo service mysql restart
 echo 'CREATE DATABASE IF NOT EXISTS gcd DEFAULT CHARACTER SET utf8' |mysql -u root -p"$MYSQL_PASSWORD"
 
-# Download GCD code and required Python packages in virtualenv
+# Download GCD code from github
 if [ -d /vagrant/gcd-django ]; then
     cd /vagrant/gcd-django
     git pull
 else
     git clone git://github.com/GrandComicsDatabase/gcd-django.git /vagrant/gcd-django
 fi
+
+# Download python-graph from github - pip can't find it automatically
 if [ -d /vagrant/python-graph ]; then
     cd /vagrant/python-graph
     git pull
 else
     git clone https://github.com/pmatiello/python-graph /vagrant/python-graph
 fi
-[ -d ~/virtualenv ] || virtualenv --system-site-packages ~/virtualenv
-source ~/virtualenv/bin/activate
+
+# Create virtualenv if needed and install/upgrade required Python packages in it
+[ -d /home/vagrant/virtualenv ] || virtualenv --system-site-packages /home/vagrant/virtualenv
+source /home/vagrant/virtualenv/bin/activate
 pip install -U pip requests
-pip install /vagrant/python-graph/core
+pip install -U /vagrant/python-graph/core
 cd /vagrant/gcd-django
 pip install -U -r requirements.txt --allow-all-external --allow-unverified rbtools --allow-unverified python-graph-core
 
