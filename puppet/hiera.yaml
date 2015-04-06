@@ -1,0 +1,9 @@
+---
+:backends:
+  - yaml
+:yaml:
+  :datadir: ""
+:hierarchy:
+  - paramaters_private
+  - parameters_common
+:merge_behavior: deeper
