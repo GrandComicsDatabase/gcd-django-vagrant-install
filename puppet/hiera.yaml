@@ -1,0 +1,11 @@
+---
+:backends:
+  - yaml
+:yaml:
+  :datadir: /vagrant/puppet
+:hierarchy:
+  - environments/local/parameters_private
+  - parameters_common
+:logger:
+  - console
+:merge_behavior: deeper

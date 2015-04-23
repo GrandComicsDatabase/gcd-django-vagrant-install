@@ -1,0 +1,11 @@
+# new search activation
+is_new_search_activated: false
+
+# global mysql configuration
+mysql_root_password:  'gcd'
+mysql_default_engine: 'InnoDB'
+
+# gcd mysql database configuration
+local_gcd_mysql_user:     'root'
+local_gcd_mysql_password: 'gcd'
+local_gcd_mysql_db:       'gcd'
