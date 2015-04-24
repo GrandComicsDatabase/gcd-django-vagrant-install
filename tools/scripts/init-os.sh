@@ -74,7 +74,7 @@ else
 fi
 
 cd /vagrant
-if git submodule sync | grep --quiet puppetlabs-java; then
+if git config --list | grep --quiet submodule; then
   echo "Git submodules are already installed"
 else
   echo "Installing git submodules"
