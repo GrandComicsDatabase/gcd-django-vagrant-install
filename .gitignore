@@ -1,4 +1,4 @@
 www
-tools
+tools/virtualenv
 .vagrant
 gcd-django.log
