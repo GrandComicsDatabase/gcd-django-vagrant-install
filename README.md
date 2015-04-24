@@ -17,7 +17,6 @@ After installing Vagrant, simply run:
 ```shell
 $ cd /path/to/your/gcd-django-vagrant-install/parent-directory
 $ git clone https://github.com/adia/gcd-django-vagrant-install
-$ git submodule update --init
 $ vagrant up --provision
 $ vagrant ssh
 (vm)$ cd /vagrant && make install
