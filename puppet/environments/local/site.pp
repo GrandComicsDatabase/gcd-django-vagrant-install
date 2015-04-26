@@ -35,6 +35,25 @@ node 'default' {
     destination_dir => "${gcd_vhost_directory}",
     branch          => 'master',
   }
+
+  $gitconfig_user       = hiera('user')
+  $gitconfig_user_name  = $gitconfig_user['name']
+  $gitconfig_user_email = $gitconfig_user['email']
+  
+  $gitconfig_template   = "
+  [user]
+    name = $gitconfig_user_name
+    email = $gitconfig_user_email
+  "
+
+  file { "/home/vagrant/.gitconfig":
+      ensure    => present,
+      content   => $gitconfig_template,
+      require   => Package['git'],
+      mode      => '0644',
+      owner     => vagrant,
+      show_diff => false,
+  }
   
   class { 'ohmyzsh':
     require => Exec['sysupdate'],
