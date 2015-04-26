@@ -6,8 +6,8 @@ node 'default' {
 
   $gcd_vhost_directory          = "/vagrant/www"
   $tools_directory              = "/vagrant/tools"
-  $script_tools_directory       = "/vagrant/tools/scripts"
-  $virtualenv_tools_directory   = "/vagrant/tools/virtualenv"
+  $script_tools_directory       = "${tools_directory}/scripts"
+  $virtualenv_tools_directory   = "${tools_directory}/virtualenv"
   $is_new_search_activated      = undef
   $gcd_django_media_directories = [ "${gcd_vhost_directory}/media/img/gcd/new_covers", 
                                     "${gcd_vhost_directory}/media/img/gcd/covers_by_id"]
