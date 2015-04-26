@@ -100,6 +100,8 @@ node 'default' {
     install_args  => ['-U'],
   }
 
+  Class['python'] -> Python::Virtualenv["${virtualenv_tools_directory}"] -> Python::Pip[['requests', 'pip', 'python-graph-core']]
+
   file { $gcd_django_media_directories:
     ensure  => directory,
     owner   => 'vagrant',
@@ -129,7 +131,5 @@ node 'default' {
       ensure => running,
       provider => "upstart",
   }
- 
-    Class['mysql'] -> Class['python'] -> File[$gcd_django_media_directories]
 
 }
