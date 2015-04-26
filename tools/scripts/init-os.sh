@@ -52,7 +52,7 @@ else
 fi
 
 if gem list | grep --quiet deep_merge; then
-  echo "Needed gems are already installed."
+  echo "Gems are already installed."
 else
   # Install RubyGems for the provider
   echo "Installing RubyGems"
@@ -60,7 +60,7 @@ else
     DEBIAN_FRONTEND=noninteractive apt-get install -y rubygems > /dev/null
   fi
   gem install --no-ri --no-rdoc rubygems-update deep_merge
-  update_rubygems >/dev/null
+  update_rubygems > /dev/null
   echo "Gems installed!"
 fi
 
