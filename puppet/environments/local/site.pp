@@ -22,6 +22,7 @@ node 'default' {
       'libmysqlclient-dev',
       'libjpeg-dev',
       'libicu-dev',
+      'tig',
       'make'
       ]:
     ensure  => installed,
