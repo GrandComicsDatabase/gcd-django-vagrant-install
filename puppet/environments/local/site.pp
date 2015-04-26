@@ -63,7 +63,6 @@ node 'default' {
   ohmyzsh::theme   { ['root', 'vagrant']: theme   => 'gianu' }
   ohmyzsh::plugins { ['root', 'vagrant']: plugins => 'git github python pip django' }
 
-
   class { 'mysql': }
 
   mysql::grant { "%{hiera('local_gcd_mysql_db')":
@@ -74,33 +73,6 @@ node 'default' {
       mysql_privileges => 'ALL',
       require          => Class['mysql']
   }
-
-  # class { '::mysql::server':
-  #   root_password           => hiera('mysql_root_password'),
-  #   # remove_default_accounts => true,
-  #   # default_engine          => hiera('mysql_default_engine')
-  # }
- 
-  # include '::mysql::server'
-
-  # mysql::db { 'gcd':
-  #   ensure  => present,
-  #   dbname   => hiera('local_gcd_mysql_db'),
-  #   user     => hiera('local_gcd_mysql_user'),
-  #   password => hiera('local_gcd_mysql_password'),
-  #   host     => 'localhost',
-  #   grant    => 'ALL',
-  #   require => Class['mysql::server']
-  # }
-
-  # mysql_grant { "root@localhost/%{hiera('local_gcd_mysql_db')}.*":
-  #   ensure     => 'present',
-  #   options    => ['GRANT'],
-  #   privileges => ['ALL'],
-  #   table      => '*.*',
-  #   user       => 'root@localhost',
-  # }
-
 
   class { 'python':
     version    => 'system',
@@ -113,7 +85,6 @@ node 'default' {
   python::virtualenv { "${virtualenv_tools_directory}":
     ensure       => present,
     version      => 'system',
-    requirements => "${gcd_vhost_directory}/requirements.txt",
     systempkgs   => true,
     distribute   => true,
     venv_dir     => "${virtualenv_tools_directory}",
