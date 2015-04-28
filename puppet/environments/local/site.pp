@@ -6,8 +6,8 @@ node 'default' {
 
   $gcd_vhost_directory          = "/vagrant/www"
   $tools_directory              = "/vagrant/tools"
-  $script_tools_directory       = "/vagrant/tools/scripts"
-  $virtualenv_tools_directory   = "/vagrant/tools/virtualenv"
+  $script_tools_directory       = "${tools_directory}/scripts"
+  $virtualenv_tools_directory   = "${tools_directory}/virtualenv"
   $is_new_search_activated      = undef
   $gcd_django_media_directories = [ "${gcd_vhost_directory}/media/img/gcd/new_covers", 
                                     "${gcd_vhost_directory}/media/img/gcd/covers_by_id"]
@@ -22,6 +22,7 @@ node 'default' {
       'libmysqlclient-dev',
       'libjpeg-dev',
       'libicu-dev',
+      'tig',
       'make'
       ]:
     ensure  => installed,
@@ -35,6 +36,25 @@ node 'default' {
     destination_dir => "${gcd_vhost_directory}",
     branch          => 'master',
   }
+
+  $gitconfig_user       = hiera('user')
+  $gitconfig_user_name  = $gitconfig_user['name']
+  $gitconfig_user_email = $gitconfig_user['email']
+  
+  $gitconfig_template   = "
+  [user]
+    name = $gitconfig_user_name
+    email = $gitconfig_user_email
+  "
+
+  file { "/home/vagrant/.gitconfig":
+      ensure    => present,
+      content   => $gitconfig_template,
+      require   => Package['git'],
+      mode      => '0644',
+      owner     => vagrant,
+      show_diff => false,
+  }
   
   class { 'ohmyzsh':
     require => Exec['sysupdate'],
@@ -43,7 +63,6 @@ node 'default' {
   ohmyzsh::install { ['root', 'vagrant']: }
   ohmyzsh::theme   { ['root', 'vagrant']: theme   => 'gianu' }
   ohmyzsh::plugins { ['root', 'vagrant']: plugins => 'git github python pip django' }
-
 
   class { 'mysql': }
 
@@ -56,33 +75,6 @@ node 'default' {
       require          => Class['mysql']
   }
 
-  # class { '::mysql::server':
-  #   root_password           => hiera('mysql_root_password'),
-  #   # remove_default_accounts => true,
-  #   # default_engine          => hiera('mysql_default_engine')
-  # }
- 
-  # include '::mysql::server'
-
-  # mysql::db { 'gcd':
-  #   ensure  => present,
-  #   dbname   => hiera('local_gcd_mysql_db'),
-  #   user     => hiera('local_gcd_mysql_user'),
-  #   password => hiera('local_gcd_mysql_password'),
-  #   host     => 'localhost',
-  #   grant    => 'ALL',
-  #   require => Class['mysql::server']
-  # }
-
-  # mysql_grant { "root@localhost/%{hiera('local_gcd_mysql_db')}.*":
-  #   ensure     => 'present',
-  #   options    => ['GRANT'],
-  #   privileges => ['ALL'],
-  #   table      => '*.*',
-  #   user       => 'root@localhost',
-  # }
-
-
   class { 'python':
     version    => 'system',
     pip        => true,
@@ -94,7 +86,6 @@ node 'default' {
   python::virtualenv { "${virtualenv_tools_directory}":
     ensure       => present,
     version      => 'system',
-    requirements => "${gcd_vhost_directory}/requirements.txt",
     systempkgs   => true,
     distribute   => true,
     venv_dir     => "${virtualenv_tools_directory}",
@@ -108,6 +99,8 @@ node 'default' {
     owner         => 'vagrant',
     install_args  => ['-U'],
   }
+
+  Class['python'] -> Python::Virtualenv["${virtualenv_tools_directory}"] -> Python::Pip[['requests', 'pip', 'python-graph-core']]
 
   file { $gcd_django_media_directories:
     ensure  => directory,
@@ -138,7 +131,5 @@ node 'default' {
       ensure => running,
       provider => "upstart",
   }
- 
-    Class['mysql'] -> Class['python'] -> File[$gcd_django_media_directories]
 
 }
