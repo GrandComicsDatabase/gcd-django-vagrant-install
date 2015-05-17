@@ -4,7 +4,7 @@
 # Originally written by adia (https://github.com/adia)
 # Updated by grosenbaum (http://github.com/grosenbaum)
 
-. /vagrant/tools/virtualenv/bin/activate
+. /usr/local/virtualenv/bin/activate
 cd /vagrant/www
 ./manage.py syncdb --migrate --noinput
 ./manage.py loaddata users
