@@ -75,6 +75,7 @@ node 'default' {
 
   class { 'python':
     version    => 'system',
+    dev        => true,
     pip        => true,
     virtualenv => true,
   }
