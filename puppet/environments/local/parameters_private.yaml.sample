@@ -1,3 +1,7 @@
+# default github.com account
 user:
   name:  Your Github.com username
   email: Your Github.com email
+
+# default ooh my zsh theme
+ohmyzsh: gianu
