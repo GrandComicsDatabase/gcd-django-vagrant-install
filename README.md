@@ -55,7 +55,7 @@ If you want to load data in your box, you can follow these steps:
 
 ```shell
 $ cd /path/to/your/gcd-django-vagrant-install/directory
-$ vagrant up
+$ vagrant ssh
 (vm)$ cd /vagrant && make load-data MYSQL=2015-04-15.sql
 ```
 
