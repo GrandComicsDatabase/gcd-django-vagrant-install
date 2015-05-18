@@ -1,32 +1,24 @@
 node 'default' {
 
+  $vagrant_directory            = '/vagrant'
+  $gcd_vhost_directory          = "${vagrant_directory}/www"
+  $tools_directory              = "${vagrant_directory}/tools"
+  $script_tools_directory       = "${tools_directory}/scripts"
+  $virtualenv_tools_directory   = '/usr/local/virtualenv'
+
+  $default_user                 = 'vagrant'
+
   exec { 'sysupdate':
     command => '/usr/bin/apt-get update'
   }
 
-  $gcd_vhost_directory          = "/vagrant/www"
-  $tools_directory              = "/vagrant/tools"
-  $script_tools_directory       = "${tools_directory}/scripts"
-  $virtualenv_tools_directory   = "${tools_directory}/virtualenv"
-  $is_new_search_activated      = undef
-  $gcd_django_media_directories = [ "${gcd_vhost_directory}/media/img/gcd/new_covers", 
-                                    "${gcd_vhost_directory}/media/img/gcd/covers_by_id"]
-
-  file { "/etc/environment":
-    content => inline_template("DJANGO_SETTINGS_MODULE=settings")
-  }
-
-  package { [
-      'csstidy',
-      'build-essential',
-      'libmysqlclient-dev',
-      'libjpeg-dev',
-      'libicu-dev',
-      'tig',
-      'make'
-      ]:
+  package { [ 'csstidy', 'build-essential', 'libmysqlclient-dev', 'libjpeg-dev', 'libicu-dev', 'tig', 'make']:
     ensure  => installed,
     require => Exec['sysupdate'],
+  }
+
+  file { '/etc/environment':
+    content => inline_template('DJANGO_SETTINGS_MODULE=settings')
   }
 
   class { 'git': }
@@ -43,93 +35,101 @@ node 'default' {
   
   $gitconfig_template   = "
   [user]
-    name = $gitconfig_user_name
-    email = $gitconfig_user_email
+    name = ${gitconfig_user_name}
+    email = ${gitconfig_user_email}
   "
 
-  file { "/home/vagrant/.gitconfig":
-      ensure    => present,
-      content   => $gitconfig_template,
-      require   => Package['git'],
-      mode      => '0644',
-      owner     => vagrant,
-      show_diff => false,
+  file { '/home/vagrant/.gitconfig':
+    ensure    => present,
+    content   => $gitconfig_template,
+    mode      => '0644',
+    owner     => $default_user,
+    show_diff => false,
+    require   => Package['git'],
   }
   
-  class { 'ohmyzsh':
+  $ohmyzsh_theme = hiera('ohmyzsh')
+
+  class { 'ohmyzsh': 
     require => Exec['sysupdate'],
   }
   
-  ohmyzsh::install { ['root', 'vagrant']: }
-  ohmyzsh::theme   { ['root', 'vagrant']: theme   => 'gianu' }
-  ohmyzsh::plugins { ['root', 'vagrant']: plugins => 'git github python pip django' }
+  ohmyzsh::install { [ 'root', "${default_user}"]: }
+  ohmyzsh::theme   { [ 'root', "${default_user}"]: 
+    theme   => $ohmyzsh_theme,
+  }
+  ohmyzsh::plugins { [ 'root', "${default_user}"]: 
+    plugins => 'git github python pip django',
+  }
 
   class { 'mysql': }
 
-  mysql::grant { "%{hiera('local_gcd_mysql_db')":
-      mysql_db         => hiera('local_gcd_mysql_db'),
-      mysql_user       => hiera('local_gcd_mysql_user'),
-      mysql_password   => hiera('local_gcd_mysql_password'),
-      mysql_create_db  => true,
-      mysql_privileges => 'ALL',
-      require          => Class['mysql']
+  mysql::grant { "%{hiera('local_gcd_mysql_db')}":
+    mysql_db         => hiera('local_gcd_mysql_db'),
+    mysql_user       => hiera('local_gcd_mysql_user'),
+    mysql_password   => hiera('local_gcd_mysql_password'),
+    mysql_create_db  => true,
+    mysql_privileges => 'ALL',
+    require          => Class['mysql']
   }
 
   class { 'python':
     version    => 'system',
-    pip        => true,
     dev        => true,
+    pip        => true,
     virtualenv => true,
-    gunicorn   => false,
   }
   
   python::virtualenv { "${virtualenv_tools_directory}":
+    ensure     => present,
+    version    => 'system',
+    systempkgs => true,
+    distribute => true,
+    venv_dir   => "${virtualenv_tools_directory}",
+    owner      => $default_user,
+    group      => $default_user,
+  }
+
+  python::pip { [ 'python-graph-core', 'requests']:
     ensure       => present,
-    version      => 'system',
-    systempkgs   => true,
-    distribute   => true,
-    venv_dir     => "${virtualenv_tools_directory}",
-    owner        => 'vagrant',
-    group        => 'vagrant',
-    require      => Git::Reposync['gcd-django'],
+    virtualenv   => "${virtualenv_tools_directory}",
+    owner        => $default_user,
+    pkgname      => 'python-graph-core',
+    install_args => ['-U ']
   }
 
-  python::pip { ['requests', 'pip', 'python-graph-core']:
-    virtualenv    => "${virtualenv_tools_directory}",
-    owner         => 'vagrant',
-    install_args  => ['-U'],
-  }
-
-  Class['python'] -> Python::Virtualenv["${virtualenv_tools_directory}"] -> Python::Pip[['requests', 'pip', 'python-graph-core']]
+  $gcd_django_media_directories = [ 
+    "${gcd_vhost_directory}/media/img/gcd/new_covers", 
+    "${gcd_vhost_directory}/media/img/gcd/covers_by_id"
+  ]
 
   file { $gcd_django_media_directories:
     ensure  => directory,
-    owner   => 'vagrant',
-    group   => 'vagrant',
-    mode    => 0755,
+    owner   => $default_user,
+    group   => $default_user,
+    mode    => '0755',
+    require => Git::Reposync['gcd-django'],
   }
 
   file { "${gcd_vhost_directory}/settings_local.py":
-    ensure => file,
-    owner  => 'vagrant',
-    group  => 'vagrant',
-    source => '/vagrant/settings_local.py',
-    path   => "${gcd_vhost_directory}/settings_local.py",
+    ensure  => file,
+    owner   => $default_user,
+    group   => $default_user,
+    source  => "${vagrant_directory}/settings_local.py",
+    path    => "${gcd_vhost_directory}/settings_local.py",
+    require => Git::Reposync['gcd-django'],
   }
 
-  Git::Reposync['gcd-django'] -> File[$gcd_django_media_directories] -> File["${gcd_vhost_directory}/settings_local.py"]
-
-  file { "/etc/init/gcd-django.conf":
+  file { '/etc/init/gcd-django.conf':
     ensure => file,
     owner  => 'root',
     group  => 'root',
-    source => '/vagrant/gcd-django.conf',
-    path   => "/etc/init/gcd-django.conf",
-  }
-  ->
-  service { "gcd-django":
-      ensure => running,
-      provider => "upstart",
+    source => "${vagrant_directory}/gcd-django.conf",
+    path   => '/etc/init/gcd-django.conf',
   }
 
+  service { 'gcd-django':
+    ensure   => running,
+    provider => 'upstart',
+  }  
 }
