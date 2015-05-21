@@ -4,10 +4,12 @@ print-%: ; @echo $*=$($*)
 
 help:
 	@echo "Usage: make <command> [<args>]"
+	@echo ""
 	@echo "Common commands:"
-	@echo "	install:	Initialization of the GCD website"
 	@echo "	help: 		Display this help"
-	@echo "	load-data:	Load MySQL dump with MYSQL as argument to locate the. For instance: make load-data MYSQL=2015-04-15.sql"
+	@echo "	install:	Install and initialize the GCD website"
+	@echo "	load-data:	Load your MySQL dump with MYSQL as argument to identify the name of the file. For instance: make load-data MYSQL=2015-04-15.sql"
+	@echo "	index-data:	Index all data in Elasticsearch. Warning, indexing data takes time."
 
 install:
 	./tools/scripts/init-django.sh
@@ -16,3 +18,6 @@ install:
 
 load-data:
 	mysql -u root -pgcd gcd < ${MYSQL}
+
+index-data:
+	./tools/scripts/index.sh
