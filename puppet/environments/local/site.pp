@@ -131,5 +131,15 @@ node 'default' {
   service { 'gcd-django':
     ensure   => running,
     provider => 'upstart',
-  }  
+  }
+
+  $elasticsearch_version     = '1.4.5'
+  $elasticsearch_package_url = "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${elasticsearch_version}.deb"
+
+  class { 'elasticsearch':
+    package_url  => $elasticsearch_package_url,
+    java_install => true,
+  }
+
+  elasticsearch::instance { 'node-01': }
 }
