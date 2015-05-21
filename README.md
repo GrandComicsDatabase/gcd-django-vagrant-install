@@ -1,25 +1,38 @@
-# gcd-django-vagrant-install
-Scripts to setup a local development environment for the [Grand Comics Database](http://www.comics.org/) website ([gcd-django](https://github.com/GrandComicsDatabase/gcd-django/)) using [Vagrant](https://www.vagrantup.com/).
+# GCD Django Box
+This repository is a set of puppet modules and scripts to setup a local development environment for the [Grand Comics Database](http://www.comics.org/) website ([gcd-django](https://github.com/GrandComicsDatabase/gcd-django/)) using [Vagrant](https://www.vagrantup.com/).
+
+## References
+
+* [Grand Comics Database website](http://www.comics.org)
+* [Grand Comics Database documentation](http://docs.comics.org/wiki/Main_Page)
+* Grand Comics Database Google groups:
+   * [Main group](https://groups.google.com/forum/#!forum/gcd-main)
+   * [Technical group](https://groups.google.com/forum/#!forum/gcd-tech)
 
 ## Requirements
 
 You need to install these applications:
 
 * [Vagrant](https://www.vagrantup.com/downloads.html)
-* A provider:
-** As default [Virtualbox](https://virtualbox.org/wiki/Downloads) 
-** VMWare Fusion,
-** Parallels Desktop.
-* `git`
+* [Virtualbox](https://virtualbox.org/wiki/Downloads)
+* [git](http://git-scm.com)
 
-**Note for the Windows user**:
+### Providers
 
-The easiest way to do install `git` on Windows is to use the official application of Github.com available [here](https://windows.github.com/).
-Use the `git shell` provided with the application to be able to proceed commands like Unix users.
+You can use other providers like [VMWare Fusion](http://www.vmware.com/products/fusion) or [Parallels Desktop](http://www.parallels.com/fr/products/desktop/) with this box but we only provide support for VirtualBox.
+
+The official documentation to manage providers with Vagrant is available [here](https://docs.vagrantup.com/v2/providers).
+
+###  Windows users
+
+The easiest way to install `git` on Windows and manage repositories is to use the official application of Github.com available [here](https://windows.github.com/). It provides also some tools like `PowerShell`, `msysGit` and `posh-git`.
+PowerShell console allows you to proceed commands like Unix users, as needed here.
+
+The official documentation to get started with Github for Windows is available [here](https://help.github.com/articles/getting-started-with-github-for-windows).
 
 ## Installation
 
-Once `Vagrant`, `git` and a provider installed, simply run:
+To get started with the GCD Django Box, simply run:
 
 ```shell
 $ cd /path/to/your/gcd-django-vagrant-install/parent-directory
@@ -28,25 +41,39 @@ $ cd gcd-django-vagrant-install
 $ cp ./puppet/environments/local/parameters_private.yaml.sample ./puppet/environments/local/parameters_private.yaml
 $ vagrant up --provision
 $ vagrant ssh
+```
+
+Once connected in your VM, run:
+
+```shell
 (vm)$ cd /vagrant && make install
 ```
 
-**Notes for the parameters_private.yaml**
+Congratulations, just after a little while, you should have a new box running with a fresh GCD development installation listening on [localhost:8000](http://localhost:8000/) - simply visit this link to test it.
 
-* Providing your Gihub.com account information (name / e-mail) in the file `parameters_private.yaml` allows you to commit directly from the box.
-* The [tig](http://jonas.nitro.dk/tig/manual.html) command is installed to help you deal with git.
+Preinstalled accounts are:
 
-## Update
+Username | Password
+---------|---------
+**admin** | **admin**
+**editor** | **editme**
+**test@comics.org** | **test**
 
-```shell
-$ cd /path/to/your/gcd-django-vagrant-install/directory
-$ git pull
-$ vagrant up --provision
-```
 
-## Load data
+**Notes about the parameters_private.yaml file**
 
-If you want to load data in your box, you can follow these steps:
+* This file helps you define custom parameters for:
+   * Your Gihub.com account information (name / e-mail)
+   * The theme for oh-my-zsh (the default theme is `gianu`)
+
+**Other stuff**
+
+* The [oh my zsh](http://ohmyz.sh) framework to pimp your `zsh` configuration.
+* The [tig](http://jonas.nitro.dk/tig/manual.html) command is installed to help you deal with `git` in command line.
+
+### Load data
+
+If you want to load real data in your box, you can follow these steps:
 
 1. Sign in to http://www.comics.org/download/ 
 2. Download the last **MySQL** dump (for instance: "Data last updated: MySQL: 2015-04-15 03:40:42")
@@ -59,6 +86,16 @@ $ vagrant ssh
 (vm)$ cd /vagrant && make load-data MYSQL=2015-04-15.sql
 ```
 
+### Index data
+
+If you want to index data in your box, run:
+
+```shell
+$ cd /path/to/your/gcd-django-vagrant-install/directory
+$ vagrant ssh
+(vm)$ cd /vagrant && make index-data
+```
+
 ## Daily usage
 
 ### Start the VM
@@ -68,12 +105,16 @@ $ cd /path/to/your/gcd-django-vagrant-install/directory
 $ vagrant up
 ```
 
-In this directory and, after a little while, you should have a VirtualBox VM running a gcd-django development installation listening on [localhost:8000](http://localhost:8000/) - simply visit this link to test it.
-
 ### Exit from the VM
 
 ```shell
 (vm)$ exit
+```
+
+### List available commands
+
+```shell
+(vm)$ cd /vagrant && make help
 ```
 
 ### Stop the VM
@@ -83,10 +124,24 @@ $ cd /path/to/your/gcd-django-vagrant-install/directory
 $ vagrant halt
 ```
 
-Preinstalled accounts are:
+## Specific usage
 
-Username | Password
----------|---------
-**admin** | **admin**
-**editor** | **editme**
-**test@comics.org** | **test**
+### Update the GCD Django Box
+
+To apply Puppet modifications (like a new theme for oh-my-zsh), run:
+
+* If your box is halted:
+
+```shell
+$ cd /path/to/your/gcd-django-vagrant-install/directory
+$ git pull
+$ vagrant up --provision
+```
+
+* If your box is already up:
+
+```shell
+$ cd /path/to/your/gcd-django-vagrant-install/directory
+$ git pull
+$ vagrant provision
+```
