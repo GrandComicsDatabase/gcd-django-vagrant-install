@@ -10,3 +10,6 @@ local_gcd_mysql_db:       'gcd'
 user:
   name:  Your Github.com username
   email: Your Github.com email
+
+# default oh my zsh theme
+ohmyzsh: gianu
