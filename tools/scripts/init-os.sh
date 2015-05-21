@@ -21,12 +21,12 @@ function DEBUG()
 REPO_DEB_URL="http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb"
 
 if [ "$(id -u)" != "0" ]; then
-  echo "This script must be run as root." >&2
+  echo "This script must be run as root" >&2
   exit 1
 fi
 
-if dpkg-query -W puppet && apt-cache policy | grep --quiet apt.puppetlabs.com; then
-  echo "Puppet is already installed."
+if dpkg-query -W puppet > /dev/null 2>&1 && apt-cache policy | grep --quiet apt.puppetlabs.com; then
+  echo "Puppet is already installed"
 else
   # Do the initial apt-get update
   echo "Initial apt-get update"
@@ -52,7 +52,7 @@ else
 fi
 
 if gem list | grep --quiet deep_merge; then
-  echo "Gems are already installed."
+  echo "Gems are already installed"
 else
   # Install RubyGems for the provider
   echo "Installing RubyGems"
