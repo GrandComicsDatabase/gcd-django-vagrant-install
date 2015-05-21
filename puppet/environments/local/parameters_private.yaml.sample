@@ -3,5 +3,5 @@ user:
   name:  Your Github.com username
   email: Your Github.com email
 
-# default ooh my zsh theme
+# default oh my zsh theme
 ohmyzsh: gianu

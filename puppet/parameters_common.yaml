@@ -7,6 +7,7 @@ local_gcd_mysql_user:     'root'
 local_gcd_mysql_password: 'gcd'
 local_gcd_mysql_db:       'gcd'
 
+# default oh my zsh theme
 user:
   name:  Your Github.com username
   email: Your Github.com email

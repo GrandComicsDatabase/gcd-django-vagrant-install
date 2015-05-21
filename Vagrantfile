@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
 
     # Settings of the vm with Parallels Desktop as provider
     local.vm.provider "parallels" do |vm|
-      vm.memory = 20148
+      vm.memory = 2048
       vm.cpus = 2
     end
   end
