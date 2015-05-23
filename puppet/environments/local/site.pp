@@ -12,13 +12,25 @@ node 'default' {
     command => '/usr/bin/apt-get update'
   }
 
-  package { [ 'csstidy', 'build-essential', 'libmysqlclient-dev', 'libjpeg-dev', 'libicu-dev', 'tig', 'make']:
+  package { [ 'csstidy', 'build-essential', 'libmysqlclient-dev', 'libjpeg-dev',
+              'libicu-dev', 'tig', 'make', 'vim', 'zip']:
     ensure  => installed,
     require => Exec['sysupdate'],
   }
 
   file { '/etc/environment':
     content => inline_template('DJANGO_SETTINGS_MODULE=settings')
+  }
+
+  if hiera('vimrc') {
+    file { "/home/${default_user}/.vimrc":
+      ensure => present,
+      content => hiera('vimrc'),
+      mode => '0644',
+      owner => $default_user,
+      show_diff => false,
+      require => Package['vim'],
+    }
   }
 
   class { 'git': }
@@ -62,6 +74,24 @@ node 'default' {
     plugins => 'git github python pip django',
   }
 
+  if hiera('custom') {
+    file { [ "/home/${default_user}/.oh-my-zsh",
+             "/home/${default_user}/.oh-my-zsh/custom",
+           ]:
+      ensure => directory,
+      mode => '0755',
+      owner => $default_user,
+      require => Ohmyzsh::Install["${default_user}"],
+    }
+    file { "/home/${default_user}/.oh-my-zsh/custom/local.zsh":
+      ensure => present,
+      content => hiera('custom'),
+      mode => '0644',
+      owner => $default_user,
+      show_diff => false,
+    }
+  }
+
   class { 'mysql': }
 
   mysql::grant { "%{hiera('local_gcd_mysql_db')}":
@@ -90,14 +120,6 @@ node 'default' {
     group      => $default_user,
   }
 
-  python::pip { [ 'python-graph-core', 'requests']:
-    ensure       => present,
-    virtualenv   => "${virtualenv_tools_directory}",
-    owner        => $default_user,
-    pkgname      => 'python-graph-core',
-    install_args => ['-U ']
-  }
-
   $gcd_django_media_directories = [ 
     "${gcd_vhost_directory}/media/img/gcd/new_covers", 
     "${gcd_vhost_directory}/media/img/gcd/covers_by_id"
@@ -120,17 +142,20 @@ node 'default' {
     require => Git::Reposync['gcd-django'],
   }
 
-  file { '/etc/init/gcd-django.conf':
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    source => "${vagrant_directory}/gcd-django.conf",
-    path   => '/etc/init/gcd-django.conf',
+  $gcd_django_conf = '/etc/init/gcd-django.conf'
+  file { $gcd_django_conf:
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    source  => "${vagrant_directory}/gcd-django.conf",
+    path    => $gcd_django_conf,
+    require => File["${gcd_vhost_directory}/settings_local.py"],
   }
 
   service { 'gcd-django':
     ensure   => running,
     provider => 'upstart',
+    require  => File[$gcd_django_conf],
   }
 
   $elasticsearch_version     = '1.4.5'

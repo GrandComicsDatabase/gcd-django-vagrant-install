@@ -36,12 +36,14 @@ To get started with the GCD Django Box, simply run:
 
 ```shell
 $ cd /path/to/your/gcd-django-vagrant-install/parent-directory
-$ git clone https://github.com/adia/gcd-django-vagrant-install
+$ git clone --recurse-submodules https://github.com/GrandComicsDatabase/gcd-django-vagrant-install
 $ cd gcd-django-vagrant-install
 $ cp ./puppet/environments/local/parameters_private.yaml.sample ./puppet/environments/local/parameters_private.yaml
 $ vagrant up --provision
 $ vagrant ssh
 ```
+
+If you are using the Windows or Mac GitHub client, it should handle recursively checking out the submodules automatically.  The provisioning will work even if the submodules are not checked out, but the resulting git repo will only function properly within the VM.  Checking out the submodules before provisioning results in a repo that works in both the host and the VM.
 
 Once connected in your VM, run:
 
@@ -65,6 +67,7 @@ Username | Password
 * This file helps you define custom parameters for:
    * Your Gihub.com account information (name / e-mail)
    * The theme for oh-my-zsh (the default theme is `gianu`)
+   * Some optional customization file contents
 
 **Other stuff**
 
@@ -86,9 +89,12 @@ $ vagrant ssh
 (vm)$ cd /vagrant && make load-data MYSQL=2015-04-15.sql
 ```
 
-### Index data
+### Index data for the search engine
 
-If you want to index data in your box, run:
+Most of the site's search features run MySQL queries directly.  However,
+the "Everything" search and a few other places use Elasticsearch, which
+requires a separate search index.  If you want to use Elasticsearch,
+run the following command to build the index:
 
 ```shell
 $ cd /path/to/your/gcd-django-vagrant-install/directory
@@ -96,7 +102,33 @@ $ vagrant ssh
 (vm)$ cd /vagrant && make index-data
 ```
 
-## Daily usage
+*NOTE*: You will need to set `USE\_ELASTICSEARCH=True` in your
+`/vagrant/www/settings\_local.py` file in order for the site to use this index.
+
+Indexing the public data dump takes much, much longer than loading it, so you
+might want to run this command overnight.
+This command *drops all existing search engine data* and rebuilds it from scratch,
+so you generally do not want to use it unless you have completely changed your
+data set.
+
+## Development usage
+
+### The development tree
+
+The [gcd-django repository](https://github.com/GrandComicsDatabase/gcd-django)
+is cloned at `/vagrant/www`, and you can do your development work there.
+See the README for that repository for a guide to the branches and other
+information.
+
+### Starting and stopping django
+
+Normally, Django should pick up changes that you make automatically.  However,
+if you have restart it for some reason, `gcd-django` is registered as an
+`init(8)` service, so `start gcd-django`, `stop gcd-django`, `restart gcd-django`,
+etc. all work.  `man initctl` for more information on the avialable commands.
+
+
+## Daily VM usage
 
 ### Start the VM
 

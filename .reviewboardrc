@@ -1,0 +1,4 @@
+REVIEWBOARD_URL = "http://reviews.comics.org"
+REPOSITORY = "gcd-django-vagrant-install"
+BRANCH = "master"
+LAND_DEST_BRANCH = "master"

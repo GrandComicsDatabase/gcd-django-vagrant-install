@@ -5,3 +5,9 @@ user:
 
 # default oh my zsh theme
 ohmyzsh: gianu
+
+# custom zsh init file contents, if any, to go in ~/.oh-my-zsh/custom/local.zsh
+custom: ~
+
+# ~/.vimrc file contents, if any
+vimrc: ~

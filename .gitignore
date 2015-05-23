@@ -1,3 +1,4 @@
 www
 .vagrant
 gcd-django.log
+puppet/environments/local/parameters_private.yaml
