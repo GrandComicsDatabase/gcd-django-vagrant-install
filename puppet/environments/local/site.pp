@@ -33,6 +33,12 @@ node 'default' {
     }
   }
 
+  if hiera('lc_all') {
+    class { 'locales':
+      lc_all => hiera('lc_all'),
+    }
+  }
+
   class { 'git': }
 
   git::reposync { 'gcd-django':

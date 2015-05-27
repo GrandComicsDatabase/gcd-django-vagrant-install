@@ -3,11 +3,15 @@ user:
   name:  Your Github.com username
   email: Your Github.com email
 
+# Set the locale.  Should be a UTF-8 locale for GCD work, but the language
+# can be changed.
+lc_all: en_US.UTF-8
+
 # default oh my zsh theme
 ohmyzsh: gianu
 
 # custom zsh init file contents, if any, to go in ~/.oh-my-zsh/custom/local.zsh
-custom: ~
+custom: ''
 
 # ~/.vimrc file contents, if any
-vimrc: ~
+vimrc: ''

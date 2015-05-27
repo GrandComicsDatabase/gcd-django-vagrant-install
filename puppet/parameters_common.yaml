@@ -7,6 +7,10 @@ local_gcd_mysql_user:     'root'
 local_gcd_mysql_password: 'gcd'
 local_gcd_mysql_db:       'gcd'
 
+# Set the locale.  Should be a UTF-8 locale for GCD work, but the language
+# can be changed.
+lc_all: 'en_US.UTF-8'
+
 # github account information
 user:
   name:  '' # Your Github.com username
@@ -14,3 +18,9 @@ user:
 
 # default oh my zsh theme
 ohmyzsh: gianu
+
+# custom zshrc file contents, if any
+custom: ''
+
+# vimrc contents, if any
+vimrc: ''
