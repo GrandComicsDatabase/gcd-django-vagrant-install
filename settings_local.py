@@ -6,7 +6,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'gcd',
-        'USER': 'root',
+        'USER': 'gcd',
         'PASSWORD': 'gcd',
     }
 }

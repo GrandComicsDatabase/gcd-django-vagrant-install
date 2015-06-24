@@ -17,7 +17,7 @@ install:
 	status gcd-django | grep -q start || sudo start gcd-django
 
 load-data:
-	mysql -u root -pgcd gcd < ${MYSQL}
+	mysql -u gcd -pgcd gcd < ${MYSQL}
 
 index-data:
 	./tools/scripts/index.sh
