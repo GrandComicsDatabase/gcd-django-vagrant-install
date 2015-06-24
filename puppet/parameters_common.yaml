@@ -1,26 +1,89 @@
-# global mysql configuration
-mysql_root_password:  'gcd'
-mysql_default_engine: 'InnoDB'
+'base_profile::timezone':       'UTC'
+'base_profile::default_locale': 'en_US.UTF-8'
+'base_profile::locales':
+  - 'en_US.UTF-8 UTF-8'
+  - 'de_DE.UTF-8 UTF-8'
+  - 'fr_FR.UTF-8 UTF-8'
+'base_profile::base_packages':
+  - 'csstidy'
+  - 'build-essential'
+  - 'libmysqlclient-dev'
+  - 'libjpeg-dev'
+  - 'libicu-dev'
+  - 'tig'
+  - 'make'
+  - 'vim'
+  - 'zip'
+'base_profile::ntp_servers':
+  - '0.pool.ntp.org iburst'
+  - '1.pool.ntp.org iburst'
+  - '2.pool.ntp.org iburst'
+  - '3.pool.ntp.org iburst'
 
-# gcd mysql database configuration
-local_gcd_mysql_user:     'root'
-local_gcd_mysql_password: 'gcd'
-local_gcd_mysql_db:       'gcd'
+'cmdline_profile::default_user': 'vagrant'
+'cmdline_profile::gitconfig':
+  color:
+    ui: 'true'
+  core:
+    editor: 'vim'
+  user:
+    name:  ''
+    email: ''
+'cmdline_profile::ohmyzsh':
+  theme:   gianu
+  plugins: 'git github python pip django'
+  custom:  ''
+'cmdline_profile::vimrc': "
+:syntax on\n
+:set expandtab\n
+:set tabstop=4\n
+:set shiftwidth=4\n
+:set smarttab"
 
-# Set the locale.  Should be a UTF-8 locale for GCD work, but the language
-# can be changed.
-lc_all: 'en_US.UTF-8'
+'django_profile::django_user':                  'vagrant'
+'django_profile::vagrant_directory':            '/vagrant'
+'django_profile::gcd_vhost_directory':          "%{hiera('django_profile::vagrant_directory')}/www"
+'django_profile::tools_directory':              "%{hiera('django_profile::vagrant_directory')}/tools"
+'django_profile::script_tools_directory':       "%{hiera('django_profile::tools_directory')}/scripts"
+'django_profile::virtualenv_tools_directory':   '/opt/virtualenv'
+'django_profile::gcd_django_conf':             '/etc/init/gcd-django.conf'
+'django_profile::gcd_django_media_directories': 
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd/new_covers"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd/covers_by_id"
+  
+'search_profile::elasticsearch_node_version':     '1.4.5'
+'search_profile::elasticsearch_node_repo_url':    "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-%{hiera('search_profile::elasticsearch_node_version')}.deb"
+'search_profile::elasticsearch_node_instance':    'node-01'
+'search_profile::elasticsearch_with_marvel':      true
+'search_profile::elasticsearch_marvel_instances': 'node-01'
+'search_profile::elasticsearch_with_java':        true
+'search_profile::elasticsearch_cluster_name':     gcd-cluster
+'search_profile::elasticsearch_config':           {}
 
-# github account information
-user:
-  name:  '' # Your Github.com username
-  email: '' # Your Github.com email
-
-# default oh my zsh theme
-ohmyzsh: gianu
-
-# custom zshrc file contents, if any
-custom: ''
-
-# vimrc contents, if any
-vimrc: ''
+'database_profile::db_root_password': 'gcd'
+'database_profile::gcd_mysql_db':
+  db:       'gcd'
+  user:     'root'
+  password: 'gcd'
+'database_profile::mysql_settings':
+  mysqld:
+    collation-server:               'utf8_unicode_ci'
+    init-connect:                   '"SET NAMES utf8"'
+    character-set-server:           'utf8'
+    tmp_table_size:                 '128M'
+    max_heap_table_size:            '128M'
+    max_allowed_packet:             '64M'
+    table_open_cache:               '450'
+    wait_timeout:                   '600'
+    innodb_log_file_size:           '512M'
+    innodb_log_files_in_group:      '2'
+    innodb_log_buffer_size:         '32M'
+    innodb_flush_log_at_trx_commit: '2'
+    innodb_lock_wait_timeout:       '50'
+    innodb_flush_method:            'O_DIRECT'
+    innodb_open_files:              '65535'
+    innodb_max_dirty_pages_pct:     '40'
+    bind-addr:                      '0.0.0.0'
+    skip-name-resolve:              ''
+  client:
+    default-character-set:          'utf8'

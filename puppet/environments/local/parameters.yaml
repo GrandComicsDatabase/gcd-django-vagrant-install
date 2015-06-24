@@ -1,0 +1,13 @@
+# Set the locale.  Should be a UTF-8 locale for GCD work, but the language
+# can be changed.
+# 'base_profile::default_locale': 'en_US.UTF-8'
+
+# Set custom mysql account
+'database_profile::gcd_mysql_db':
+  db:       'gcd'
+  user:     'gcd'
+  password: 'gcd'
+
+# Set custom elasticsearch version
+# 'search_profile::elasticsearch_node_version':  '1.6.0'
+'search_profile::elasticsearch_cluster_name':  gcd-cluster-local
