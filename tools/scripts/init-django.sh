@@ -4,6 +4,6 @@
 # Originally written by adia (https://github.com/adia)
 # Updated by grosenbaum (http://github.com/grosenbaum)
 
-. /usr/local/virtualenv/bin/activate
+. /opt/virtualenv/bin/activate
 cd /vagrant/www
 pip install -U -r requirements.txt --allow-all-external --allow-unverified rbtools --allow-unverified python-graph-core
