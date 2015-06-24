@@ -1,0 +1,6 @@
+<% @real_gitconfig.each do |section, settings| -%>
+[<%= section %>]
+<% settings.each do |key, value| -%>
+  <%= key %> = <%= value %>
+<% end %>
+<% end %>
