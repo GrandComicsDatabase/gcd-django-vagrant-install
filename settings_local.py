@@ -18,12 +18,11 @@ CACHES = {
 }
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-SITE_URL = 'http://localhost:8000/'
-IMAGE_SERVER_URL = 'http://localhost:8000/site_media/'
+SITE_URL = 'http://192.168.63.30:8000/'
+IMAGE_SERVER_URL = 'http://192.168.63.30:8000/site_media/'
 MEDIA_URL = '/site_media/'
 COVERS_DIR = '/img/gcd/covers_by_id/'
 NEW_COVERS_DIR = '/img/gcd/new_covers/'
 
 COMPRESS = True
 COMPRESS_VERSION = True
-
