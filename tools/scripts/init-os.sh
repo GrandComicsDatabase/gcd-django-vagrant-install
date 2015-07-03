@@ -51,7 +51,7 @@ else
   echo "Puppet installed!"
 fi
 
-if gem list | grep --quiet deep_merge; then
+if gem list deep_merge -i; then
   echo "Gems are already installed"
 else
   # Install RubyGems for the provider
