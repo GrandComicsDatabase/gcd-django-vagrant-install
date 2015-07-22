@@ -1,6 +1,45 @@
-# Class: base_profile
+# = Class: base_profile
 #
+# Main base class to configure the system
 #
+# == Parameters
+#
+# Standard class parameters
+# Define the general class behaviour and customizations
+#
+# [*base_packages*]
+#   Array defining default system packages to install
+#   Default: [
+#    'csstidy','build-essential','libmysqlclient-dev',
+#    'libjpeg-dev','libicu-dev',
+#    'tig','make','vim','zip'
+#   ]
+#
+# [*ntp_servers*]
+#   Array defining default system packages to install
+#   Default: [
+#     '0.pool.ntp.org iburst',
+#     '1.pool.ntp.org iburst',
+#     '2.pool.ntp.org iburst',
+#     '3.pool.ntp.org iburst',
+#   ]
+#
+# [*timezone*]
+#   String defining default system timezone
+#   Default: 'UTC'
+#
+# [*default_locale*]
+#   String defining default local among array of locales
+#   Default: 'en_US.UTF-8'
+#
+# [*locales*]
+#   Array defining locales to install
+#   Default: [
+#     'en_US.UTF-8 UTF-8',
+#     'de_DE.UTF-8 UTF-8',
+#     'fr_FR.UTF-8 UTF-8',
+#   ]
+
 class base_profile (
   $base_packages  = 'UNSET',
   $ntp_servers    = 'UNSET',

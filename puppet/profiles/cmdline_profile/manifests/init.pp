@@ -1,5 +1,44 @@
 # Class: cmdline_profile
 #
+# Main class to configure command line tools for the system
+#
+# == Parameters
+#
+# Standard class parameters
+# Define the class behaviour and customizations
+#
+# [*default_user*]
+#   String defining default user of the system
+#   Default: 'vagrant'
+# 
+# [*gitconfig*]
+#   Hash defining default configuration of git
+#   Default: {
+#     'color' => { 'ui'     => true },
+#     'core'  => { 'editor' => 'vim' },
+#     'user'  => {
+#       'name'  => 'You Github Name',
+#       'email' => 'You Github eMail',
+#     },
+#   }
+# 
+# [*ohmyzsh*]
+#   Hash defining default configutation of oh-my-zsh
+#   Default: {
+#     'theme'   => 'gianu',
+#     'plugins' => 'git github python pip django',
+#     'custom'  =>  '',
+#   }
+#
+# [*vimrc*]
+#   String defining default configuration of vim
+#   Default: "
+#     :syntax on\n
+#     :set expandtab\n
+#     :set tabstop=4\n
+#     :set shiftwidth=4\n
+#     :set smarttab"
+
 class cmdline_profile (
   $default_user = 'UNSET',
   $gitconfig    = 'UNSET',

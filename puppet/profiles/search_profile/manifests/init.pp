@@ -1,6 +1,40 @@
 # Class: search_profile
 #
+# Main class to configure the search system based for GCD on Elasticsearch
 #
+# == Parameters
+#
+# Standard class parameters
+# Define the class behaviour and customizations
+#
+# [*elasticsearch_node_repo_url*]
+#   String defining default URL to elasticsearch.deb file with a fixed Elasticeach version
+#   Default: 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.5.deb'
+#
+# [*elasticsearch_node_instance*]
+#   String defining default Elasticsearch node instance name
+#   Default: 'node-01'
+# 
+# [*elasticsearch_with_marvel*]
+#   Boolean defining if Marvel is activated
+#   Default: true
+# 
+# [*elasticsearch_marvel_instances*]
+#   String defining default Marvel instance name
+#   Default: 'node-01'
+#  
+# [*elasticsearch_with_java*]
+#   Boolean defining if Java must be managed by the Elasticsearch module
+#   Default: true
+# 
+# [*elasticsearch_cluster_name*]
+#   String defining default Elasticearch cluster name
+#   Default: 'UNSET'
+# 
+# [*elasticsearch_config*]
+#   Hash defining default config for Elasticsearch
+#   Default: []
+
 class search_profile (
   $elasticsearch_node_repo_url    = 'UNSET',
   $elasticsearch_node_instance    = 'UNSET',

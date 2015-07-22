@@ -1,6 +1,39 @@
 # Class: django_profile
 #
+# Main class to configure Django for GCD
 #
+# == Parameters
+#
+# Standard class parameters
+# Define the class behaviour and customizations
+#
+# [*django_user*]
+#   String defining default Django user
+#   Default: 'vagrant'
+# 
+# [*vagrant_directory*]
+#   String defining default vagrant directory
+#   Default: '/vagrant'
+# 
+# [*gcd_vhost_directory*]
+#   String defining default GCD vHost directory
+#   Default: '/vagrant/www'
+# 
+# [*virtualenv_tools_directory*]
+#   String defining virtualenv directory
+#   Default: '/opt/virtualenv'
+#  
+# [*gcd_django_conf*]
+#   String defining default path to Django config file for Upstart 
+#   Default: '/etc/init/gcd-django.conf'
+# 
+# [*gcd_django_media_directories*]
+#   Array defining default path to 'new_covers' and 'covers_by_id' directories
+#   Default: [
+#     '/vagrant/www/media/img/gcd/new_covers',
+#     '/vagrant/www/media/img/gcd/covers_by_id',
+#   ]
+
 class django_profile (
   $django_user                  = 'UNSET',
   $vagrant_directory            = 'UNSET',

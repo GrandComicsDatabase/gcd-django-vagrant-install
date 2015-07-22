@@ -1,6 +1,16 @@
 # Class: database_profile::params
 #
+# This class defines default parameters used by the main module class database_profile
 #
+# == Variables
+#
+# Refer to mysql class for the variables defined here.
+#
+# == Usage
+#
+# This class is not intended to be used directly.
+# It may be inherited by other classes.
+
 class database_profile::params {
   $mysql_settings = {
     'mysqld' => {

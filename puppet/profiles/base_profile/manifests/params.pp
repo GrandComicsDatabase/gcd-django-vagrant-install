@@ -1,6 +1,16 @@
 # Class base_profile::params
 #
+# This class defines default parameters used by the main module class base_profile
 #
+# == Variables
+#
+# Refer to base_profile, ntp, locales and timezone classes for the variables defined here.
+#
+# == Usage
+#
+# This class is not intended to be used directly.
+# It may be inherited by other classes.
+
 class base_profile::params {
   $base_packages  = [
     'csstidy','build-essential','libmysqlclient-dev',
