@@ -26,5 +26,5 @@
   path = puppet/modules/java
   url = git://github.com/puppetlabs/puppetlabs-java.git
 [submodule "puppet/modules/locales"]
-	path = puppet/modules/locales
-	url = https://github.com/saz/puppet-locales.git
+  path = puppet/modules/locales
+  url = git://github.com/saz/puppet-locales.git
