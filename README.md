@@ -39,17 +39,35 @@ $ cd /path/to/your/gcd-django-vagrant-install/parent-directory
 $ git clone --recurse-submodules https://github.com/GrandComicsDatabase/gcd-django-vagrant-install
 $ cd gcd-django-vagrant-install
 $ cp ./puppet/environments/local/parameters_private.yaml.sample ./puppet/environments/local/parameters_private.yaml
+```
+
+Edit parameters_private.yaml to have your GitHub username and email.
+You can also optionally add some zsh or vim customizations.
+Then run:
+
+```shell
 $ vagrant up --provision
 $ vagrant ssh
 ```
 
 If you are using the Windows or Mac GitHub client, it should handle recursively checking out the submodules automatically.  The provisioning will work even if the submodules are not checked out, but the resulting git repo will only function properly within the VM.  Checking out the submodules before provisioning results in a repo that works in both the host and the VM.
 
-Once connected in your VM, run:
+To run off of `master`, once connected in your VM, run:
 
 ```shell
 (vm)$ cd /vagrant && make install
 ```
+
+To run off of a different branch, first configure your tracking branch, then check it out, and then run make install:
+
+```shell
+(vm)$ cd /vagrant/www
+(vm)$ git branch --track devel origin/devel
+(vm)$ git checkout devel
+(vm)$ cd /vagrant && make install
+```
+
+Running make install on the branch only really matters if your python packages or database migrations are different.
 
 Congratulations, just after a little while, you should have a new box running with a fresh GCD development installation listening on [localhost:8000](http://localhost:8000/) - simply visit this link to test it.
 
@@ -127,6 +145,17 @@ if you have restart it for some reason, `gcd-django` is registered as an
 `init(8)` service, so `start gcd-django`, `stop gcd-django`, `restart gcd-django`,
 etc. all work.  `man initctl` for more information on the avialable commands.
 
+You can see exactly what is going on for this in `/etc/init/gcd-django.conf`
+
+### Logs
+
+You'll find your web server log in `/vagrant/gcd-django.log`
+
+### Python Environment
+
+The virtualenv used to run the server is located at `/usr/local/virtualenv`
+Although see https://github.com/GrandComicsDatabase/gcd-django-vagrant-install/issues/4
+for an issue with that installation and plans to move it to `/opt`
 
 ## Daily VM usage
 
