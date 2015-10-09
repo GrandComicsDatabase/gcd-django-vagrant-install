@@ -47,14 +47,16 @@
 #     'user'     => 'root',
 #     'password' => 'gcd',
 #   }
+#
+# === Authors
+#
+# Gilles Rosenbaum
 
 class database_profile (
   $mysql_settings   = 'UNSET',
   $db_root_password = 'UNSET',
   $gcd_mysql_db     = 'UNSET',
-) {
-
-  include database_profile::params
+) inherits database_profile::params {
 
   $real_db_root_password = $::database_profile::db_root_password ? {
     'UNSET' => $database_profile::params::db_root_password,

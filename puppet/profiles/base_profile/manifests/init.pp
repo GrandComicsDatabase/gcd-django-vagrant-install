@@ -39,6 +39,10 @@
 #     'de_DE.UTF-8 UTF-8',
 #     'fr_FR.UTF-8 UTF-8',
 #   ]
+#
+# === Authors
+#
+# Gilles Rosenbaum
 
 class base_profile (
   $base_packages  = 'UNSET',
@@ -46,10 +50,8 @@ class base_profile (
   $timezone       = 'UNSET',
   $default_locale = 'UNSET',
   $locales        = 'UNSET',
-) {
+) inherits base_profile::params {
   
-  include base_profile::params
-
   exec { 'sysupdate':
     command => '/usr/bin/apt-get update',
   }
@@ -69,7 +71,7 @@ class base_profile (
 
   validate_array($real_ntp_servers)
   class { 'ntp':
-      servers => $ntp_servers,
+    servers => $ntp_servers,
   }
 
   $real_default_locale = $::base_profile::default_locale ? {
@@ -86,8 +88,8 @@ class base_profile (
   validate_array($real_locales)
   
   class { 'locales':
-      default_locale => $real_default_locale,
-      locales        => $real_locales,
+    default_locale => $real_default_locale,
+    locales        => $real_locales,
   }
 
   $real_timezone = $::base_profile::timezone ? {
@@ -98,6 +100,6 @@ class base_profile (
   validate_string($real_default_locale)
 
   class { 'timezone':
-      timezone => $real_timezone,
+    timezone => $real_timezone,
   }
 }

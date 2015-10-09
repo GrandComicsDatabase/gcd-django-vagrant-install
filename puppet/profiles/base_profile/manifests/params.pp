@@ -1,4 +1,4 @@
-# Class base_profile::params
+# Class: base_profile::params
 #
 # This class defines default parameters used by the main module class base_profile
 #
@@ -10,9 +10,13 @@
 #
 # This class is not intended to be used directly.
 # It may be inherited by other classes.
+#
+# === Authors
+#
+# Gilles Rosenbaum
 
 class base_profile::params {
-  $base_packages  = [
+  $base_packages = [
     'csstidy','build-essential','libmysqlclient-dev',
     'libjpeg-dev','libicu-dev',
     'tig','make','vim','zip'

@@ -33,6 +33,10 @@
 #     '/vagrant/www/media/img/gcd/new_covers',
 #     '/vagrant/www/media/img/gcd/covers_by_id',
 #   ]
+#
+# === Authors
+#
+# Gilles Rosenbaum
 
 class django_profile (
   $django_user                  = 'UNSET',
@@ -41,9 +45,7 @@ class django_profile (
   $virtualenv_tools_directory   = 'UNSET',
   $gcd_django_conf              = 'UNSET',
   $gcd_django_media_directories = 'UNSET',
-) {
-
-  include django_profile::params
+) inherits django_profile::params {
 
   file { '/etc/environment':
     content => inline_template('DJANGO_SETTINGS_MODULE=settings')

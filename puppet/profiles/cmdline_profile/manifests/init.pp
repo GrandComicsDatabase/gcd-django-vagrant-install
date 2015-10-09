@@ -35,15 +35,17 @@
 #     :set tabstop=4\n
 #     :set shiftwidth=4\n
 #     :set smarttab"
+#
+# === Authors
+#
+# Gilles Rosenbaum
 
 class cmdline_profile (
   $default_user = 'UNSET',
   $gitconfig    = 'UNSET',
   $ohmyzsh      = 'UNSET',
   $vimrc        = 'UNSET',
-) {
-
-  include cmdline_profile::params
+) inherits cmdline_profile::params {
 
   $real_default_user = $::cmdline_profile::default_user ? {
     'UNSET' => $cmdline_profile::params::default_user,
@@ -59,12 +61,12 @@ class cmdline_profile (
   validate_string($real_default_user)
 
   file { "/home/${real_default_user}/.gitconfig":
-      ensure    => present,
-      content   => template('cmdline_profile/gitconfig.erb'),
-      mode      => '0644',
-      owner     => $real_default_user,
-      show_diff => false,
-      require   => Package['git'],
+    ensure    => present,
+    content   => template('cmdline_profile/gitconfig.erb'),
+    mode      => '0644',
+    owner     => $real_default_user,
+    show_diff => false,
+    require   => Package['git'],
   }
 
   $real_ohmyzsh = $::cmdline_profile::ohmyzsh ? {

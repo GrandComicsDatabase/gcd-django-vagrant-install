@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# This bootstraps mysql for the gcd website
+# This builds the index for the gcd website
 # Originally written by adia (https://github.com/adia)
 # Updated by grosenbaum (http://github.com/grosenbaum)
 

@@ -10,6 +10,10 @@
 #
 # This class is not intended to be used directly.
 # It may be inherited by other classes.
+#
+# === Authors
+#
+# Gilles Rosenbaum
 
 class cmdline_profile::params {
   $gitconfig = {
