@@ -41,8 +41,12 @@ $ cd gcd-django-vagrant-install
 $ cp ./puppet/environments/local/parameters_private.yaml.sample ./puppet/environments/local/parameters_private.yaml
 ```
 
-Edit parameters_private.yaml to have your GitHub username and email.
-You can also optionally add some zsh or vim customizations.
+**Notes about the parameters_private.yaml file**
+
+* This file helps you define optional custom parameters for:
+   * The theme for oh-my-zsh (the default theme is `gianu`)
+   * Some optional customization file contents
+
 Then run:
 
 ```shell
@@ -67,9 +71,13 @@ To run off of a different branch, first configure your tracking branch, then che
 (vm)$ cd /vagrant && make install
 ```
 
-Running make install on the branch only really matters if your python packages or database migrations are different.
+Running `make install` on the branch only really matters if your python packages or database migrations are different.
 
-Congratulations, just after a little while, you should have a new box running with a fresh GCD development installation listening on [localhost:8000](http://localhost:8000/) - simply visit this link to test it.
+Congratulations, just after a little while, you should have a new box running with a fresh GCD development installation. Simply visit these links to test them:
+
+* [192.168.63.30:8000](http://192.168.63.30:8000) - GCD Website
+* [192.168.63.30:9200](http://192.168.63.30:9200) - Elasticsearch end point
+* [192.168.63.30:9200/_plugin/marvel/](http://192.168.63.30:9200/_plugin/marvel/) - Marvel access
 
 Preinstalled accounts are:
 
@@ -79,13 +87,6 @@ Username | Password
 **editor** | **editme**
 **test@comics.org** | **test**
 
-
-**Notes about the parameters_private.yaml file**
-
-* This file helps you define custom parameters for:
-   * Your Gihub.com account information (name / e-mail)
-   * The theme for oh-my-zsh (the default theme is `gianu`)
-   * Some optional customization file contents
 
 **Other stuff**
 
@@ -153,9 +154,7 @@ You'll find your web server log in `/vagrant/gcd-django.log`
 
 ### Python Environment
 
-The virtualenv used to run the server is located at `/usr/local/virtualenv`
-Although see https://github.com/GrandComicsDatabase/gcd-django-vagrant-install/issues/4
-for an issue with that installation and plans to move it to `/opt`
+The virtualenv used to run the server is located at `/opt/virtualenv`.
 
 ## Daily VM usage
 
