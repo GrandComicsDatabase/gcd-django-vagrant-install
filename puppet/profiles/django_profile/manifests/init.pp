@@ -49,9 +49,9 @@ class django_profile (
     content => inline_template('DJANGO_SETTINGS_MODULE=settings')
   }
 
-  $real_gcd_vhost_directory = $gcd_vhost_directory ? {
-    'UNSET' => $::django_profile::gcd_vhost_directory,
-    default => $gcd_vhost_directory,
+  $real_gcd_vhost_directory = $::django_profile::gcd_vhost_directory ? {
+    'UNSET' => $django_profile::params::gcd_vhost_directory,
+    default => $::django_profile::gcd_vhost_directory,
   }
 
   validate_absolute_path($real_gcd_vhost_directory)
@@ -66,29 +66,29 @@ class django_profile (
     branch          => 'master',
   }
 
-  $real_django_user = $django_user ? {
-    'UNSET' => $::django_profile::django_user,
-    default => $django_user,
+  $real_django_user = $::django_profile::django_user ? {
+    'UNSET' => $django_profile::params::django_user,
+    default => $::django_profile::django_user,
   }
 
-  $real_virtualenv_tools_directory = $virtualenv_tools_directory ? {
-    'UNSET' => $::django_profile::virtualenv_tools_directory,
-    default => $virtualenv_tools_directory,
+  $real_virtualenv_tools_directory = $::django_profile::virtualenv_tools_directory ? {
+    'UNSET' => $django_profile::params::virtualenv_tools_directory,
+    default => $::django_profile::virtualenv_tools_directory,
   }
 
-  $real_gcd_django_conf = $gcd_django_conf ? {
-    'UNSET' => $::django_profile::gcd_django_conf,
-    default => $gcd_django_conf,
+  $real_gcd_django_conf = $::django_profile::gcd_django_conf ? {
+    'UNSET' => $django_profile::params::gcd_django_conf,
+    default => $::django_profile::gcd_django_conf,
   }
 
-  $real_gcd_django_media_directories = $gcd_django_media_directories ? {
-    'UNSET' => $::django_profile::gcd_django_media_directories,
-    default => $gcd_django_media_directories,
+  $real_gcd_django_media_directories = $::django_profile::gcd_django_media_directories ? {
+    'UNSET' => $django_profile::params::gcd_django_media_directories,
+    default => $::django_profile::gcd_django_media_directories,
   }
 
-  $real_vagrant_directory = $vagrant_directory ? {
-    'UNSET' => $::django_profile::vagrant_directory,
-    default => $vagrant_directory,
+  $real_vagrant_directory = $::django_profile::vagrant_directory ? {
+    'UNSET' => $django_profile::params::vagrant_directory,
+    default => $::django_profile::vagrant_directory,
   }
 
   validate_string($real_django_user)

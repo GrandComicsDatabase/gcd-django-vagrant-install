@@ -45,14 +45,14 @@ class cmdline_profile (
 
   include cmdline_profile::params
 
-  $real_default_user = $default_user ? {
-    'UNSET' => $::cmdline_profile::default_user,
-    default => $default_user,
+  $real_default_user = $::cmdline_profile::default_user ? {
+    'UNSET' => $cmdline_profile::params::default_user,
+    default => $::cmdline_profile::default_user,
   }
 
-  $real_gitconfig = $gitconfig ? {
-    'UNSET' => $::cmdline_profile::gitconfig,
-    default => $gitconfig,
+  $real_gitconfig = $::cmdline_profile::gitconfig ? {
+    'UNSET' => $cmdline_profile::params::gitconfig,
+    default => $::cmdline_profile::gitconfig,
   }
 
   validate_hash($real_gitconfig)
@@ -67,9 +67,9 @@ class cmdline_profile (
       require   => Package['git'],
   }
 
-  $real_ohmyzsh = $ohmyzsh ? {
-    'UNSET' => $::cmdline_profile::ohmyzsh,
-    default => $ohmyzsh,
+  $real_ohmyzsh = $::cmdline_profile::ohmyzsh ? {
+    'UNSET' => $cmdline_profile::params::ohmyzsh,
+    default => $::cmdline_profile::ohmyzsh,
   }
 
   validate_hash($real_ohmyzsh)
@@ -97,9 +97,9 @@ class cmdline_profile (
     require   => Ohmyzsh::Install['root', $real_default_user],
   }
 
-  $real_vimrc = $vimrc ? {
-    'UNSET' => $::cmdline_profile::vimrc,
-    default => $vimrc,
+  $real_vimrc = $::cmdline_profile::vimrc ? {
+    'UNSET' => $cmdline_profile::params::vimrc,
+    default => $::cmdline_profile::vimrc,
   }
 
   validate_string($real_vimrc)

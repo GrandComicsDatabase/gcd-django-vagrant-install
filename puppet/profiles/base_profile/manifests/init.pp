@@ -54,17 +54,17 @@ class base_profile (
     command => '/usr/bin/apt-get update',
   }
 
-  $real_base_packages = $base_packages ? {
-    'UNSET' => $::base_profile::base_packages,
-    default => $base_packages,
+  $real_base_packages = $::base_profile::base_packages ? {
+    'UNSET' => $base_profile::params::base_packages,
+    default => $::base_profile::base_packages,
   }
 
   validate_array($real_base_packages)
   ensure_packages($real_base_packages)
 
-  $real_ntp_servers = $ntp_servers ? {
-    'UNSET' => $::base_profile::ntp_servers,
-    default => $ntp_servers,
+  $real_ntp_servers = $::base_profile::ntp_servers ? {
+    'UNSET' => $base_profile::params::ntp_servers,
+    default => $::base_profile::ntp_servers,
   }
 
   validate_array($real_ntp_servers)
@@ -72,14 +72,14 @@ class base_profile (
       servers => $ntp_servers,
   }
 
-  $real_default_locale = $default_locale ? {
-    'UNSET' => $::base_profile::default_locale,
-    default => $default_locale,
+  $real_default_locale = $::base_profile::default_locale ? {
+    'UNSET' => $base_profile::params::default_locale,
+    default => $::base_profile::default_locale,
   }
 
-  $real_locales = $locales ? {
-    'UNSET' => $::base_profile::locales,
-    default => $locales,
+  $real_locales = $::base_profile::locales ? {
+    'UNSET' => $base_profile::params::locales,
+    default => $::base_profile::locales,
   }
 
   validate_string($real_default_locale)
@@ -90,9 +90,9 @@ class base_profile (
       locales        => $real_locales,
   }
 
-  $real_timezone = $timezone ? {
-    'UNSET' => $::base_profile::timezone,
-    default => $timezone,
+  $real_timezone = $::base_profile::timezone ? {
+    'UNSET' => $base_profile::params::timezone,
+    default => $::base_profile::timezone,
   }
 
   validate_string($real_default_locale)

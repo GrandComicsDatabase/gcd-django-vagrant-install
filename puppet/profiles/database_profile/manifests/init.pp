@@ -56,14 +56,14 @@ class database_profile (
 
   include database_profile::params
 
-  $real_db_root_password = $db_root_password ? {
-    'UNSET' => $::database_profile::db_root_password,
-    default => $db_root_password,
+  $real_db_root_password = $::database_profile::db_root_password ? {
+    'UNSET' => $database_profile::params::db_root_password,
+    default => $::database_profile::db_root_password,
   }
 
-  $real_mysql_settings = $mysql_settings ? {
-    'UNSET' => $::database_profile::mysql_settings,
-    default => $mysql_settings,
+  $real_mysql_settings = $::database_profile::mysql_settings ? {
+    'UNSET' => $database_profile::params::mysql_settings,
+    default => $::database_profile::mysql_settings,
   }
 
   validate_string($real_db_root_password)
@@ -74,9 +74,9 @@ class database_profile (
     options       => $real_mysql_settings,
   }
 
-  $real_gcd_mysql_db = $gcd_mysql_db ? {
-    'UNSET' => $::database_profile::gcd_mysql_db,
-    default => $gcd_mysql_db,
+  $real_gcd_mysql_db = $::database_profile::gcd_mysql_db ? {
+    'UNSET' => $database_profile::params::gcd_mysql_db,
+    default => $::database_profile::gcd_mysql_db,
   }
 
   validate_hash($real_gcd_mysql_db)
