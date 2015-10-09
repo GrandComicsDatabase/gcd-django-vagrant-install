@@ -4,9 +4,6 @@
     ui:     true
   core:
     editor: vim
-  user:
-    name:   Your Github.com username
-    email:  Your Github.com email
 
 # default oh my zsh theme
 # 'cmdline_profile::ohmyzsh':

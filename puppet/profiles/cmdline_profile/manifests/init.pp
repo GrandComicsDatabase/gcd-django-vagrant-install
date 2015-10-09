@@ -15,10 +15,7 @@
 #   Hash defining default configuration of git
 #   Default: {
 #     'color' => { 'ui'     => true },
-#     'core'  => { 'editor' => 'vim' },
-#     'user'  => {
-#       'name'  => 'You Github Name',
-#       'email' => 'You Github eMail',
+#     'core'  => { 'editor' => 'vim' }
 #     },
 #   }
 # 

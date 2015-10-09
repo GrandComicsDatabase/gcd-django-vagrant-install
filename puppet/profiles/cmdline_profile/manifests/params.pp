@@ -14,11 +14,7 @@
 class cmdline_profile::params {
   $gitconfig = {
     'color' => { 'ui'     => true },
-    'core'  => { 'editor' => 'vim' },
-    'user'  => {
-      'name'  => 'You Github Name',
-      'email' => 'You Github eMail',
-      },
+    'core'  => { 'editor' => 'vim' }
   }
   $ohmyzsh = {
     'theme'   => 'gianu',

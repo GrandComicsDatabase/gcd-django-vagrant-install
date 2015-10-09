@@ -26,9 +26,6 @@
     ui: 'true'
   core:
     editor: 'vim'
-  user:
-    name:  ''
-    email: ''
 'cmdline_profile::ohmyzsh':
   theme:   gianu
   plugins: 'git github python pip django'
