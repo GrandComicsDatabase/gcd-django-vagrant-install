@@ -4,8 +4,7 @@
 :yaml:
   :datadir: /vagrant/puppet
 :hierarchy:
-  - environments/local/parameters_private
+  - "environments/%{::environment}/parameters_private"
+  - "environments/%{::environment}/parameters"
   - parameters_common
-:logger:
-  - console
 :merge_behavior: deeper

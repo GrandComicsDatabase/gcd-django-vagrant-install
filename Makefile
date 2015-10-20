@@ -14,10 +14,11 @@ help:
 install:
 	./tools/scripts/init-django.sh
 	./tools/scripts/init-db.sh
+	./tools/scripts/init-config.sh
 	status gcd-django | grep -q start || sudo start gcd-django
 
 load-data:
-	mysql -u root -pgcd gcd < ${MYSQL}
+	mysql -u gcd -pgcd gcd < ${MYSQL}
 
 index-data:
 	./tools/scripts/index.sh

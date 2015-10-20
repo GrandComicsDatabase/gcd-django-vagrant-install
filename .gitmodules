@@ -28,3 +28,9 @@
 [submodule "puppet/modules/locales"]
   path = puppet/modules/locales
   url = git://github.com/saz/puppet-locales.git
+[submodule "puppet/modules/ntp"]
+  path = puppet/modules/ntp
+  url = git://github.com/puppetlabs/puppetlabs-ntp.git
+[submodule "puppet/modules/timezone"]
+  path = puppet/modules/timezone
+  url = git://github.com/saz/puppet-timezone.git
