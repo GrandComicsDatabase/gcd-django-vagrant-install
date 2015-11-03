@@ -99,6 +99,11 @@ class cmdline_profile (
     require   => Ohmyzsh::Install['root', $real_default_user],
   }
 
+  file_line { "/home/${real_default_user}/.zshrc":
+    path => "/home/${real_default_user}/.zshrc",
+    line => 'source /opt/virtualenv/bin/activate',
+  }
+
   $real_vimrc = $::cmdline_profile::vimrc ? {
     'UNSET' => $cmdline_profile::params::vimrc,
     default => $::cmdline_profile::vimrc,
