@@ -101,9 +101,9 @@ class django_profile (
 
   class { 'python':
     version    => 'system',
-    dev        => true,
-    pip        => true,
-    virtualenv => true,
+    dev        => present,
+    pip        => present,
+    virtualenv => present,
   }
 
   python::virtualenv { $real_virtualenv_tools_directory:
