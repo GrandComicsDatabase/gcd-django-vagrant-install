@@ -87,6 +87,7 @@ class database_profile (
     mysql_db         => $real_gcd_mysql_db['db'],
     mysql_user       => $real_gcd_mysql_db['user'],
     mysql_password   => $real_gcd_mysql_db['password'],
+    mysql_db_create_options => 'character set utf8',
     mysql_create_db  => true,
     mysql_privileges => 'ALL',
   }
