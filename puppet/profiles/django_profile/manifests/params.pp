@@ -22,7 +22,15 @@ class django_profile::params {
   $virtualenv_tools_directory   = '/opt/virtualenv'
   $gcd_django_conf              = '/etc/init/gcd-django.conf'
   $gcd_django_media_directories = [
+    '/vagrant/www/media',
+    '/vagrant/www/media/dumps',
+    '/vagrant/www/media/img',
+    '/vagrant/www/media/img/gcd',
     '/vagrant/www/media/img/gcd/new_covers',
     '/vagrant/www/media/img/gcd/covers_by_id',
+    '/vagrant/www/media/img/gcd/covers_old_id_scheme',
+    '/vagrant/www/media/img/gcd/new_generic_images',
+    '/vagrant/www/media/img/gcd/generic_images',
+    '/vagrant/www/media/voting_receipts',
   ]
 }

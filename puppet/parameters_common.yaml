@@ -45,8 +45,16 @@
 'django_profile::virtualenv_tools_directory':   '/opt/virtualenv'
 'django_profile::gcd_django_conf':             '/etc/init/gcd-django.conf'
 'django_profile::gcd_django_media_directories': 
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/dump"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/img"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd"
   - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd/new_covers"
   - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd/covers_by_id"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd/covers_old_id_scheme"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd/new_generic_images"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/img/gcd/generic_images"
+  - "%{hiera('django_profile::gcd_vhost_directory')}/media/voting_receipts"
   
 'search_profile::elasticsearch_node_version':     '1.4.5'
 'search_profile::elasticsearch_node_repo_url':    "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-%{hiera('search_profile::elasticsearch_node_version')}.deb"

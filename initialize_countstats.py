@@ -1,5 +1,9 @@
-from apps.gcd.models.countstats import CountStats
-from apps.gcd.models import Language, Country
+import django
+
+from apps.stats.models import CountStats
+from apps.stddata.models import Language, Country
+
+django.setup()
 
 if CountStats.objects.filter(language__isnull=False).count() == 0:
     for i in Language.objects.all():

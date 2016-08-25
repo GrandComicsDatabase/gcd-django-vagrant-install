@@ -6,4 +6,4 @@
 
 . /opt/virtualenv/bin/activate
 cd /vagrant/www
-pip install -U -r requirements.txt --allow-all-external --allow-unverified rbtools --allow-unverified python-graph-core
+pip install -U -r requirements.txt

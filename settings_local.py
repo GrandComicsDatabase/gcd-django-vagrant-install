@@ -1,3 +1,6 @@
+from os.path import abspath, dirname, join
+
+
 ADVERTISING = False
 FAKE_COVER_IMAGES = False
 DEBUG = True
@@ -19,10 +22,10 @@ CACHES = {
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_URL = 'http://192.168.63.30:8000/'
-IMAGE_SERVER_URL = 'http://192.168.63.30:8000/site_media/'
-MEDIA_URL = '/site_media/'
+IMAGE_SERVER_URL = 'http://192.168.63.30:8000/media/'
 COVERS_DIR = '/img/gcd/covers_by_id/'
 NEW_COVERS_DIR = '/img/gcd/new_covers/'
+VOTING_DIR = abspath(join(dirname(__file__), 'media/voting_receipts'))
 
 COMPRESS = True
 COMPRESS_VERSION = True

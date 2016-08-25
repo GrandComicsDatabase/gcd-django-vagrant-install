@@ -6,6 +6,6 @@
 
 . /opt/virtualenv/bin/activate
 cd /vagrant/www
-./manage.py syncdb --migrate --noinput
+./manage.py migrate --noinput
 ./manage.py loaddata users
 python <../initialize_countstats.py

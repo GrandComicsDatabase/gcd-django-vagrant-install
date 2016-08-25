@@ -28,10 +28,19 @@
 #   Default: '/etc/init/gcd-django.conf'
 # 
 # [*gcd_django_media_directories*]
-#   Array defining default path to 'new_covers' and 'covers_by_id' directories
+#   Array defining default path to various user-uploaded or
+#   app-generated content.
 #   Default: [
-#     '/vagrant/www/media/img/gcd/new_covers',
-#     '/vagrant/www/media/img/gcd/covers_by_id',
+#      '/vagrant/www/media',
+#      '/vagrant/www/media/dumps',
+#      '/vagrant/www/media/img',
+#      '/vagrant/www/media/img/gcd',
+#      '/vagrant/www/media/img/gcd/new_covers',
+#      '/vagrant/www/media/img/gcd/covers_by_id',
+#      '/vagrant/www/media/img/gcd/covers_old_id_scheme',
+#      '/vagrant/www/media/img/gcd/new_generic_images',
+#      '/vagrant/www/media/img/gcd/generic_images',
+#      '/vagrant/www/media/voting_receipts',
 #   ]
 #
 # === Authors
@@ -68,6 +77,13 @@ class django_profile (
     branch          => 'master',
   }
 
+  git::reposync { 'gcd-managed-content':
+    source_url      => 'https://github.com/GrandComicsDatabase/gcd-managed-content.git',
+    destination_dir => "${real_gcd_vhost_directory}/templates/managed_content",
+    branch          => 'master',
+    require         => File["${real_gcd_vhost_directory}/templates/managed_content"],
+  }
+
   $real_django_user = $::django_profile::django_user ? {
     'UNSET' => $django_profile::params::django_user,
     default => $::django_profile::django_user,
@@ -102,7 +118,7 @@ class django_profile (
   class { 'python':
     version    => 'system',
     dev        => present,
-    pip        => present,
+    pip        => latest,
     virtualenv => present,
   }
 
@@ -110,7 +126,7 @@ class django_profile (
     ensure     => present,
     version    => 'system',
     systempkgs => true,
-    distribute => true,
+    distribute => false,
     venv_dir   => $real_virtualenv_tools_directory,
     owner      => $real_django_user,
     group      => $real_django_user,
@@ -121,6 +137,14 @@ class django_profile (
     owner   => $real_django_user,
     group   => $real_django_user,
     mode    => '0755',
+    require => Git::Reposync['gcd-django'],
+  }
+
+  file { "${real_gcd_vhost_directory}/templates/managed_content":
+    ensure  => directory,
+    owner   => $real_django_user,
+    group   => $real_django_user,
+    mode    => '0775',
     require => Git::Reposync['gcd-django'],
   }
 
