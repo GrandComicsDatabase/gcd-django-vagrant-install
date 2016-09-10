@@ -35,7 +35,7 @@ The official documentation to get started with Github for Windows is available [
 To get started with the GCD Django Box, simply run:
 
 ```shell
-$ cd /path/to/your/gcd-django-vagrant-install/parent-directory
+$ cd /path/to/your/gcd-django-vagrant-install-parent-directory
 $ git clone --recurse-submodules https://github.com/GrandComicsDatabase/gcd-django-vagrant-install
 $ cd gcd-django-vagrant-install
 $ cp ./puppet/environments/local/parameters_private.yaml.sample ./puppet/environments/local/parameters_private.yaml
@@ -56,7 +56,7 @@ $ vagrant ssh
 
 If you are using the Windows or Mac GitHub client, it should handle recursively checking out the submodules automatically.  The provisioning will work even if the submodules are not checked out, but the resulting git repo will only function properly within the VM.  Checking out the submodules before provisioning results in a repo that works in both the host and the VM.
 
-To run off of `master`, once connected in your VM, run:
+To run off of `beta` (which should be the base branch for most work), once connected in your VM, run:
 
 ```shell
 (vm)$ cd /vagrant && make install
@@ -66,12 +66,11 @@ To run off of a different branch, first configure your tracking branch, then che
 
 ```shell
 (vm)$ cd /vagrant/www
-(vm)$ git branch --track devel origin/devel
-(vm)$ git checkout devel
+(vm)$ git checkout other-branch
 (vm)$ cd /vagrant && make install
 ```
 
-Running `make install` on the branch only really matters if your python packages or database migrations are different.
+Running `make install` with the different branch checked out only really matters if your python packages or database migrations are different on that branch.
 
 Congratulations, just after a little while, you should have a new box running with a fresh GCD development installation. Simply visit these links to test them:
 
@@ -90,7 +89,7 @@ Username | Password
 
 **Other stuff**
 
-* The [oh my zsh](http://ohmyz.sh) framework to pimp your `zsh` configuration.
+* The [oh my zsh](http://ohmyz.sh) framework to customize your `zsh` configuration.
 * The [tig](http://jonas.nitro.dk/tig/manual.html) command is installed to help you deal with `git` in command line.
 
 ### Load data
@@ -110,10 +109,17 @@ $ vagrant ssh
 
 ### Index data for the search engine
 
+*WARNING*: Indexing the public data dump takes much, much longer than loading it, so you
+might want to run this command overnight.
+
 Most of the site's search features run MySQL queries directly.  However,
 the "Everything" search and a few other places use Elasticsearch, which
 requires a separate search index.  If you want to use Elasticsearch,
-run the following command to build the index:
+run the following command to build the index.
+
+*WARNING*: This command *drops all existing search engine data* and rebuilds it from scratch,
+so you generally do not want to use it unless you have completely changed your
+data set.
 
 ```shell
 $ cd /path/to/your/gcd-django-vagrant-install/directory
@@ -123,12 +129,6 @@ $ vagrant ssh
 
 *NOTE*: You will need to set `USE\_ELASTICSEARCH=True` in your
 `/vagrant/www/settings\_local.py` file in order for the site to use this index.
-
-Indexing the public data dump takes much, much longer than loading it, so you
-might want to run this command overnight.
-This command *drops all existing search engine data* and rebuilds it from scratch,
-so you generally do not want to use it unless you have completely changed your
-data set.
 
 ## Development usage
 

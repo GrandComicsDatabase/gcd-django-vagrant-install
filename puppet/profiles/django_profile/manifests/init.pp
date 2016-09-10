@@ -74,7 +74,7 @@ class django_profile (
   git::reposync { 'gcd-django':
     source_url      => 'https://github.com/GrandComicsDatabase/gcd-django.git',
     destination_dir => $real_gcd_vhost_directory,
-    branch          => 'master',
+    branch          => 'beta',
   }
 
   git::reposync { 'gcd-managed-content':
